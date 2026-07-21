@@ -10,8 +10,16 @@ forvalues i = 1/`=scalar(n_x)' {
 	scalar mean_consec_x_i = mean_consec_x[`i']
 
 	frame change results
-
-	gen y_i = theta[_n] * mean_consec_x_i^alpha[_n]
+	
+	if "`model'" == "weibull" {
+		gen y_i = theta[_n] * mean_consec_x_i^alpha[_n]
+	}
+	else if "`model'" == "musa" {
+		gen y_i = theta[_n] * log(1 + mean_consec_x_i/alpha[_n])
+	}
+	else if "`model'" == "goel" {
+		gen y_i = theta[_n] * (1- exp(-beta[_n]*mean_consec_x_i^alpha[_n]))
+	}
 
 	quietly summarize y_i
 	scalar mean_yi = r(mean)
@@ -34,4 +42,7 @@ forvalues i = 1/`=scalar(n_x)' {
 
 gen aux = _n - 1/2
 
-line mean_y mean_consec_x || line aux mean_consec_x
+twoway rarea p025_y p975_y mean_consec_x, ///
+	fcolor(gray) fintensity(50) lcolor(gray) || ///
+	line mean_y mean_consec_x || ///
+	line aux mean_consec_x

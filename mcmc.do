@@ -1,19 +1,19 @@
 program define mcmc
 args model n_chains n_iter n_burnin alpha_0 theta_0 beta_0
 
-do "../processo de poisson/funcoes/nhpp_traj.ado"
-do "../processo de poisson/funcoes/nhpp_mean.ado"
-do "funcoes/sample_alpha.ado"
-do "funcoes/sample_theta.ado"
-do "funcoes/sample_beta.ado"
-do "funcoes/loglik.ado"
-do "funcoes/sintonizar.ado"
-do "funcoes/chain_graph.ado"
-do "funcoes/mcmc_dic.ado"
-do "funcoes/mcmc_convergence.ado"
+do "functions/nhpp_traj.ado"
+*do "../processo de poisson/functions/nhpp_mean.ado"
+do "functions/sample_alpha.ado"
+do "functions/sample_theta.ado"
+do "functions/sample_beta.ado"
+do "functions/loglik.ado"
+do "functions/sintonizar.ado"
+do "functions/chain_graph.ado"
+do "functions/mcmc_dic.ado"
+do "functions/mcmc_convergence.ado"
 
 * carrega dados da memória
-use "../dados/dataS15.dta"
+use "trajectories/dataS15.dta"
 *use "trajectories/nhpp_weibull_t_10_alpha_3_theta_2.dta"
 *use "trajectories/nhpp_musa_t_1000_alpha_2_theta_20.dta"
 *use "trajectories/nhpp_goel_t_10_alpha_2_theta_50_beta_10.dta"
