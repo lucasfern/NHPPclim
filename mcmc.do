@@ -1,16 +1,14 @@
 program define mcmc
 args model n_chains n_iter n_burnin alpha_0 theta_0 beta_0
 
-do "functions/nhpp_traj.ado"
-*do "../processo de poisson/functions/nhpp_mean.ado"
 do "functions/sample_alpha.ado"
 do "functions/sample_theta.ado"
 do "functions/sample_beta.ado"
 do "functions/loglik.ado"
 do "functions/sintonizar.ado"
 do "functions/chain_graph.ado"
-do "functions/mcmc_dic.ado"
-do "functions/mcmc_convergence.ado"
+do "functions/dic.ado"
+do "functions/convergence.ado"
 
 * carrega dados da memória
 use "trajectories/dataS15.dta"
@@ -170,7 +168,7 @@ by chain, sort: egen media_theta = mean(theta)
 if "`model'" == "goel" {
 	by chain, sort: egen media_beta = mean(beta)	
 }
-capture mkdir imagens
+capture mkdir images
 chain_graph alpha
 chain_graph theta "stgreen"
 if "`model'" == "goel" {
@@ -179,20 +177,29 @@ if "`model'" == "goel" {
 
 if "`model'" == "weibull" | "`model'" == "musa" {
 	graph combine ///
-		"imagens/graph_alpha" "imagens/graph_theta"
+		"images/graph_alpha" "images/graph_theta"
 }
 else if "`model'" == "goel" {
 	graph combine ///
-		"imagens/graph_alpha" "imagens/graph_theta" "imagens/graph_beta"
+		"images/graph_alpha" "images/graph_theta" "images/graph_beta"
 }
 
-mcmc_dic `model'
+* DIC
+display ""
+display "------------------------------------"
+display "Deviance Information Criterion (DIC)"
+display "------------------------------------"
+dic `model'
 
 * chain convergence diagnostics
-mcmc_convergence `n_chains' `n_iter' `n_burnin' results alpha
-mcmc_convergence `n_chains' `n_iter' `n_burnin' results theta		
+display ""
+display "-----------------------"
+display "Convergence Diagnostics"
+display "-----------------------"
+convergence `n_chains' `n_iter' `n_burnin' results alpha
+convergence `n_chains' `n_iter' `n_burnin' results theta		
 if "`model'" == "goel" {
-	mcmc_convergence `n_chains' `n_iter' `n_burnin' results beta
+	convergence `n_chains' `n_iter' `n_burnin' results beta
 }
 
 end

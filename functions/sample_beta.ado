@@ -11,12 +11,12 @@ program define sample_beta, rclass
 		drop x_to_alpha
 		
 		scalar log_p_beta = ///
-			(n + a_beta - 1) * log(beta_i) - ///
+			(n_x + a_beta - 1) * log(beta_i) - ///
 			beta_i * (b_beta + sum_x_to_alpha) + ///
 			theta_i * exp(-beta_i * max_x^alpha_i)
 		
 		scalar log_p_beta_new = ///
-			(n + a_beta - 1) * log(beta_new) - ///
+			(n_x + a_beta - 1) * log(beta_new) - ///
 			beta_new * (b_beta + sum_x_to_alpha) + ///
 			theta_i * exp(-beta_new * max_x^alpha_i)
 	}

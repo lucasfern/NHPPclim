@@ -5,6 +5,8 @@ gen mean_y = .
 gen p025_y = .
 gen p975_y = .
 
+local model = "weibull"
+
 forvalues i = 1/`=scalar(n_x)' {
 
 	scalar mean_consec_x_i = mean_consec_x[`i']
@@ -43,6 +45,6 @@ forvalues i = 1/`=scalar(n_x)' {
 gen aux = _n - 1/2
 
 twoway rarea p025_y p975_y mean_consec_x, ///
-	fcolor(gray) fintensity(50) lcolor(gray) || ///
+	fcolor(gray) fintensity(30) lwidth(none) || ///
 	line mean_y mean_consec_x || ///
 	line aux mean_consec_x

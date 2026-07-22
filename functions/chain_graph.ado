@@ -6,7 +6,7 @@ program define chain_graph
 	by(chain, legend(pos(5))) || ///
 	line media_`varname' iter, ///
 	lpattern(dash) legend(label(2 "Média") col(2)) ///
-	saving("imagens/graph_`varname'", replace)
+	saving("images/graph_`varname'", replace)
 
-	graph export "imagens/graph_`varname'.png", replace
+	graph export "images/graph_`varname'.png", replace
 end

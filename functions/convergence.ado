@@ -1,4 +1,4 @@
-program define mcmc_convergence
+program define convergence
 	args n_chains n_iter n_burnin framename varname
 	
 	frames copy `framename' convergence_`varname'
